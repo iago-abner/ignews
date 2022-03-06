@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import { SubscribeButton } from '../components/SubscribeButton'
 import { stripe } from '../services/stripe'
@@ -36,7 +36,9 @@ export default function Home({ product }: Homeprops) {
 
 //server side rendering:
 // todo código dessa função será executado primeiro no servidor node que está rodando o next e não no browser
-export const getServerSideProps: GetServerSideProps = async () => {
+
+//para mudar de SSR para SSG basta alterar de 'getServerSideProps' para 'getStaticProps'
+export const getStaticProps: GetStaticProps = async () => {
   const price = await stripe.prices.retrieve('price_1KZFIBIFhPeQQXNhzVPjq8nn')
 
   const product = {
@@ -50,6 +52,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props:{
       product,
-    }
+    },
+    //tempo que o SSG revalidará o HTML salvo buscando um novo HTML para caso de alteração
+    revalidate: 60 * 60 * 24 // 24 horas
   }
 }
