@@ -1,5 +1,6 @@
 import {FaGithub} from 'react-icons/fa'
 import {FiX} from 'react-icons/fi'
+//importando o next-auth para autenticação via github
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 import styles from './styles.module.scss';
